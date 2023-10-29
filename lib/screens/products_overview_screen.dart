@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../screens/cart_screen.dart';
 import '../widgets/app_drawer.dart';
 import '../providers/cart.dart';
-import '../widgets/019 badge.dart' as badge;
+import '../widgets/badge.dart' as badge;
 import '../providers/products.dart';
 import '../widgets/products_grid.dart';
 
