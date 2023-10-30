@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
+import 'package:http/http.dart' as http;
 
 import '../models/product.dart';
 
@@ -38,7 +41,7 @@ class Products with ChangeNotifier {
     ),
   ];
 
-  var _showFavoritesOnly = false;
+  // var _showFavoritesOnly = false;
 
   List<Product> get favoriteItems {
     return _items.where((element) => element.isFavorite).toList();
@@ -54,16 +57,39 @@ class Products with ChangeNotifier {
     //instead of an address
   }
 
-  void addProduct(Product product) {
-    final newProduct = Product(
+  Future<void> addProduct(Product product) {
+    final url = Uri.https(
+        //remove the 'https://' if you use the .https constructor
+        //or use the .parse constructor if you wanna keep the https
+        //also remove the '/' at the end of the link
+        'shopapp-3f885-default-rtdb.europe-west1.firebasedatabase.app',
+        '/products.json');
+    return http //this is the future that'll, but it'll return its '.then()'
+        .post(url,
+            body: json.encode({
+              // JSON = JavaScript Object Notation
+              'title': product.title,
+              'description': product.description,
+              'imageUrl': product.imageUrl,
+              'price': product.price,
+              'isFavorite': product.isFavorite,
+            }))
+        .then((response) {
+      print(json.decode(response.body));
+      //returns the key of the object in database map
+      //{name: -Ni0xX7xzdf3XqFVbx1d} for example
+      final newProduct = Product(
         description: product.description,
         imageUrl: product.imageUrl,
         price: product.price,
         title: product.title,
-        id: DateTime.now().toString());
-    _items.add(newProduct);
-    // _items.insert(0, newProduct); //insert at the start of list
-    notifyListeners();
+        id: json.decode(response.body)['name'],
+      );
+      //use the same id of the object in the database
+      _items.add(newProduct);
+      // _items.insert(0, newProduct); //to insert at the start of list
+      notifyListeners();
+    });
   }
 
   Product findById(String id) {

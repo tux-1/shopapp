@@ -13,7 +13,8 @@ class OrderItem extends StatefulWidget {
   State<OrderItem> createState() => _OrderItemState();
 }
 
-class _OrderItemState extends State<OrderItem> {
+class _OrderItemState extends State<OrderItem>
+    with SingleTickerProviderStateMixin {
   var _expanded = false;
 
   @override
@@ -63,7 +64,7 @@ class _OrderItemState extends State<OrderItem> {
                 },
                 itemCount: widget.order.products.length,
               ),
-            )
+            ),
         ],
       ),
     );
