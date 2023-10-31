@@ -57,28 +57,30 @@ class Products with ChangeNotifier {
     //instead of an address
   }
 
-  Future<void> addProduct(Product product) {
+  Future<void> addProduct(Product product) async {
+    //putting async wrapped the function body in a future and but also made the
+    //funciton body run somewhat in sync? (not sure of this part yet)
     final url = Uri.https(
         //remove the 'https://' if you use the .https constructor
         //or use the .parse constructor if you wanna keep the https
         //also remove the '/' at the end of the link
         'shopapp-3f885-default-rtdb.europe-west1.firebasedatabase.app',
-        '/products.json');
-    return http //this is the future that'll, but it'll return its '.then()'
-        .post(url,
-            body: json.encode({
-              // JSON = JavaScript Object Notation
-              'title': product.title,
-              'description': product.description,
-              'imageUrl': product.imageUrl,
-              'price': product.price,
-              'isFavorite': product.isFavorite,
-            }))
-        //if an error is caught here the next .then() will be skipped to the catch
-        .then((response) {
+        '/products.json'); //removing .json will yield an error
+    try {
+      final response =
+          await http //this is the future that'll return, but it'll return its '.then()'
+              .post(
+        url,
+        body: json.encode({
+          // JSON = JavaScript Object Notation
+          'title': product.title,
+          'description': product.description,
+          'imageUrl': product.imageUrl,
+          'price': product.price,
+          'isFavorite': product.isFavorite,
+        }),
+      );
       // print(json.decode(response.body));
-      //returns the key of the object in database map
-      //{name: -Ni0xX7xzdf3XqFVbx1d} for example
       final newProduct = Product(
         description: product.description,
         imageUrl: product.imageUrl,
@@ -86,14 +88,19 @@ class Products with ChangeNotifier {
         title: product.title,
         id: json.decode(response.body)['name'],
       );
-      //use the same id of the object in the database
       _items.add(newProduct);
-      // _items.insert(0, newProduct); //to insert at the start of list
       notifyListeners();
-    }).catchError((error) {
+    } catch (error) {
       print(error);
       throw error;
-    });
+    }
+    //if an error is caught the next .then() will be skipped to the catch
+    //assuming there's still a .then(), i removed it to adapt await method
+
+    // print(json.decode(response.body));
+    //returns the key of the object in database map
+    //{name: -Ni0xX7xzdf3XqFVbx1d} for example
+    //use the same id of the object in the database
   }
 
   Product findById(String id) {

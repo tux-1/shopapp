@@ -76,7 +76,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
     }
   }
 
-  void _saveForm() {
+  Future<void> _saveForm() async {
     final _isValid = _form.currentState?.validate();
     if (_isValid != true) {
       return;
@@ -90,10 +90,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
       Provider.of<Products>(context, listen: false)
           .updateProduct(_editedProduct.id, _editedProduct);
     } else {
-      Provider.of<Products>(context, listen: false)
-          .addProduct(_editedProduct)
-          .catchError((error) {
-        return showDialog<Null>(
+      try {
+        await Provider.of<Products>(context, listen: false)
+            .addProduct(_editedProduct);
+      } catch (error) {
+        await showDialog<Null>(
             context: context,
             builder: (ctx) {
               return AlertDialog(
@@ -108,16 +109,13 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 ],
               );
             });
-      }).then((_) {
-//Waiting for data to register in backend before going back to user_products_screen
+      } finally {
         setState(() {
           _isLoading = false;
         });
         Navigator.of(context).pop();
-      });
+      }
     }
-
-    // Navigator.of(context).pop();//moved up so we wait until the adding is done
   }
 
   @override
