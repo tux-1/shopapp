@@ -74,8 +74,9 @@ class Products with ChangeNotifier {
               'price': product.price,
               'isFavorite': product.isFavorite,
             }))
+        //if an error is caught here the next .then() will be skipped to the catch
         .then((response) {
-      print(json.decode(response.body));
+      // print(json.decode(response.body));
       //returns the key of the object in database map
       //{name: -Ni0xX7xzdf3XqFVbx1d} for example
       final newProduct = Product(
@@ -89,6 +90,9 @@ class Products with ChangeNotifier {
       _items.add(newProduct);
       // _items.insert(0, newProduct); //to insert at the start of list
       notifyListeners();
+    }).catchError((error) {
+      print(error);
+      throw error;
     });
   }
 
