@@ -64,16 +64,16 @@ class _EditProductScreenState extends State<EditProductScreen> {
 
   void _updateImageUrl() {
     //CHECKING IF IMAGE IS VALID BEFORE LOADING IT
-    if (!_imageUrlFocusNode.hasFocus) {
-      if ((!_imageUrlController.toString().startsWith('http') &&
+    if (_imageUrlFocusNode.hasFocus) {
+      if ((!_imageUrlController.toString().startsWith('http') ||
               !_imageUrlController.toString().startsWith('https')) ||
-          (!_imageUrlController.toString().endsWith('.jpg') &&
-              !_imageUrlController.toString().endsWith('.png') &&
-              !_imageUrlController.toString().endsWith('.jpeg'))) {
+          !_imageUrlController.toString().endsWith('.jpg') ||
+          !_imageUrlController.toString().endsWith('.png') ||
+          !_imageUrlController.toString().endsWith('.jpeg')) {
         return;
       }
-      setState(() {});
     }
+    setState(() {});
   }
 
   Future<void> _saveForm() async {
@@ -87,7 +87,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
       _isLoading = true;
     });
     if (!_editedProduct.id.isEmpty) {
-      Provider.of<Products>(context, listen: false)
+      await Provider.of<Products>(context, listen: false)
           .updateProduct(_editedProduct.id, _editedProduct);
     } else {
       try {
@@ -109,13 +109,18 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 ],
               );
             });
-      } finally {
-        setState(() {
-          _isLoading = false;
-        });
-        Navigator.of(context).pop();
       }
+      // finally {
+      //   setState(() {
+      //     _isLoading = false;
+      //   });
+      //   Navigator.of(context).pop();
+      // }
     }
+    setState(() {
+      _isLoading = false;
+    });
+    Navigator.of(context).pop();
   }
 
   @override
@@ -138,6 +143,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 child: ListView(
                   children: [
                     TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       // textAlign: TextAlign.right,
 
                       decoration: InputDecoration(
@@ -166,6 +172,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       },
                     ),
                     TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       initialValue: _initValues['price'],
                       decoration: InputDecoration(
                         labelText: 'Price',
@@ -195,6 +202,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       },
                     ),
                     TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       initialValue: _initValues['description'],
                       decoration: InputDecoration(
                         labelText: 'Description',
@@ -248,6 +256,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         ),
                         Expanded(
                             child: TextFormField(
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           // initialValue: _initValues['imageURL'],
                           decoration: InputDecoration(labelText: 'Image URL'),
                           keyboardType: TextInputType.url,
@@ -259,9 +268,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                 !value.toString().startsWith('https')) {
                               return 'Please enter a valid link';
                             }
-                            if (value.toString().endsWith('.jpg') &&
-                                value.toString().endsWith('.png') &&
-                                value.toString().endsWith('.jpeg')) {
+                            if (!value.toString().endsWith('.jpg') &&
+                                !value.toString().endsWith('.png') &&
+                                !value.toString().endsWith('.jpeg')) {
                               return 'Please enter a valid image URL';
                             } else {
                               return null;
@@ -270,6 +279,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
                           textInputAction: TextInputAction.done,
                           controller: _imageUrlController,
                           focusNode: _imageUrlFocusNode,
+                          onTapOutside: (_) {
+                            setState(() {});
+                          },
                           onEditingComplete: () {
                             setState(() {});
                           },

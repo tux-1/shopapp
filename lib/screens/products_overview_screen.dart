@@ -98,6 +98,16 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
             ? const Center(
                 child: CircularProgressIndicator(),
               )
-            : ProductsGrid(_showOnlyFavorites));
+            : RefreshIndicator(
+                onRefresh: () {
+                  return Future.delayed(
+                    Duration.zero,
+                    () {
+                      Provider.of<Products>(context, listen: false)
+                          .fetchAndSetProducts();
+                    },
+                  );
+                },
+                child: ProductsGrid(_showOnlyFavorites)));
   }
 }

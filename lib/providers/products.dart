@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
+import '../models/exceptions.dart';
 import '../models/product.dart';
 
 class Products with ChangeNotifier {
@@ -109,7 +110,7 @@ class Products with ChangeNotifier {
         imageUrl: product.imageUrl,
         price: product.price,
         title: product.title,
-        id: json.decode(response.body)['name'],
+        id: json.decode(response.body).toString(), //i had ['name'] here idk why
       );
       _items.add(newProduct);
       notifyListeners();
@@ -130,7 +131,21 @@ class Products with ChangeNotifier {
     return _items.firstWhere((product) => product.id == id);
   }
 
-  void updateProduct(String id, Product newProduct) {
+  Future<void> updateProduct(String id, Product newProduct) async {
+    final url = Uri.https(
+        'shopapp-3f885-default-rtdb.europe-west1.firebasedatabase.app',
+        '/products/$id.json');
+
+    try {
+      await http.patch(url,
+          body: json.encode({
+            'title': newProduct.title,
+            'description': newProduct.description,
+            'imageUrl': newProduct.imageUrl,
+            'price': newProduct.price,
+          }));
+    } catch (error) {}
+
     final productIndex = _items.indexWhere((element) => element.id == id);
     if (productIndex >= 0) {
       _items[productIndex] = newProduct;
@@ -140,8 +155,23 @@ class Products with ChangeNotifier {
     }
   }
 
-  void deleteProduct(String id) {
-    _items.removeWhere((element) => element.id == id);
+  Future<void> deleteProduct(String id) async {
+    final url = Uri.https(
+        'shopapp-3f885-default-rtdb.europe-west1.firebasedatabase.app',
+        '/products/$id.json');
+
+    var existingProductIndex = _items.indexWhere((element) => element.id == id);
+    var existingProduct = _items[existingProductIndex];
+
+    _items.removeAt(existingProductIndex);
     notifyListeners();
+    //if delete request fails we'll re-add the product to the list
+    final response = await http.delete(url);
+    if (response.statusCode >= 400) {
+      _items.insert(existingProductIndex, existingProduct);
+      notifyListeners();
+      throw HttpException('Could not delete product');
+    }
+    existingProduct.dispose();
   }
 }
