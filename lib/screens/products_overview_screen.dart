@@ -20,6 +20,28 @@ class ProductsOverviewScreen extends StatefulWidget {
 
 class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   var _showOnlyFavorites = false;
+  var _isLoading = false;
+
+  @override
+  void initState() {
+    setState(() {
+      _isLoading = true;
+    });
+    //listen:true wouldnt work here
+    Provider.of<Products>(context, listen: false)
+        .fetchAndSetProducts()
+        .then((_) {
+      setState(() {
+        _isLoading = false;
+      });
+    });
+
+    //this is the substitute if you want listen: true
+    // Future.delayed(Duration.zero).then((_) {
+    //   Provider.of<Products>(context).fetchAndSetProducts();
+    // });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,21 +79,25 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                   }
                 });
               },
-              icon: Icon(Icons.more_vert),
+              icon: const Icon(Icons.more_vert),
               itemBuilder: (_) => [
-                PopupMenuItem(
-                  child: Text('Only Favorites'),
+                const PopupMenuItem(
                   value: FilterOptions.Favorites,
+                  child: Text('Only Favorites'),
                 ),
-                PopupMenuItem(
-                  child: Text('Show All'),
+                const PopupMenuItem(
                   value: FilterOptions.All,
+                  child: Text('Show All'),
                 ),
               ],
             ),
           ],
         ),
-        drawer: AppDrawer(),
-        body: ProductsGrid(_showOnlyFavorites));
+        drawer: const AppDrawer(),
+        body: _isLoading
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : ProductsGrid(_showOnlyFavorites));
   }
 }
