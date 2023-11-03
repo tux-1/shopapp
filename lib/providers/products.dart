@@ -110,7 +110,8 @@ class Products with ChangeNotifier {
         imageUrl: product.imageUrl,
         price: product.price,
         title: product.title,
-        id: json.decode(response.body).toString(), //i had ['name'] here idk why
+        id: json.decode(response.body)['name'],
+        //either use                  ['name'] or .toString()
       );
       _items.add(newProduct);
       notifyListeners();

@@ -21,21 +21,31 @@ class Product with ChangeNotifier {
     this.isFavorite = false,
   });
 
+  void _setFavValue(bool newValue) {
+    isFavorite = newValue;
+    notifyListeners();
+  }
+
   Future<void> toggleFavoriteStatus() async {
     final url = Uri.https(
         'shopapp-3f885-default-rtdb.europe-west1.firebasedatabase.app',
         '/products/$id.json');
-
+    var oldFavorite = isFavorite;
     isFavorite = !isFavorite;
     notifyListeners();
     try {
-      await http.patch(url,
-          body: json.encode({
-            'isFavorite': isFavorite,
-          }));
+      //for patch, put & delete http package won't throw an error if u remove .json
+      final response = await http.patch(
+        url,
+        body: json.encode({
+          'isFavorite': isFavorite,
+        }),
+      );
+      if (response.statusCode >= 400) {
+        _setFavValue(oldFavorite);
+      }
     } catch (error) {
-      isFavorite = !isFavorite;
-      notifyListeners();
+      _setFavValue(oldFavorite);
       throw HttpException('Could not favorite');
     }
   }
