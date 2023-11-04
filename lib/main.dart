@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'screens/auth-screen.dart';
 import './screens/edit_product_screen.dart';
 import './providers/orders.dart';
 import './screens/cart_screen.dart';
@@ -44,8 +45,9 @@ class MyApp extends StatelessWidget {
                 primarySwatch: Colors.blueGrey,
                 accentColor: Colors.deepOrange,
               )),
-          home: ProductsOverviewScreen(),
+          home: AuthScreen(),
           routes: {
+            // ProductsOverviewScreen()
             EditProductScreen.routeName: (ctx) => EditProductScreen(),
             ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
             CartScreen.routeName: (ctx) => CartScreen(),
