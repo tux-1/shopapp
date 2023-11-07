@@ -63,8 +63,8 @@ class Products with ChangeNotifier {
   Future<void> fetchAndSetProducts() async {
     final url = Uri.https(
       'shopapp-3f885-default-rtdb.europe-west1.firebasedatabase.app',
-      '/products.json',
-      // MAYBE ADD HERE {'auth': '$authToken'}
+      '/products.json', // encodedPath, the directory
+      {'auth': authToken}, // THE AUTH TOKEN GOES IN queryParameters
     );
     //add ?auth=$authToken at the end of the link to access by using token
     //it's not working with me lol
@@ -98,11 +98,13 @@ class Products with ChangeNotifier {
     //funciton body run somewhat in sync? (not sure of this part yet)
 
     final url = Uri.https(
-        //remove the 'https://' if you use the .https constructor
-        //or use the .parse constructor if you wanna keep the https
-        //also remove the '/' at the end of the link
-        'shopapp-3f885-default-rtdb.europe-west1.firebasedatabase.app',
-        '/products.json'); //removing .json will yield an error
+      //remove the 'https://' if you use the .https constructor
+      //or use the .parse constructor if you wanna keep the https
+      //also remove the '/' at the end of the link
+      'shopapp-3f885-default-rtdb.europe-west1.firebasedatabase.app',
+      '/products.json',
+      {'auth': authToken},
+    ); //removing .json will yield an error
     try {
       final response =
           await http //this is the future that'll return, but it'll return its '.then()'
@@ -147,8 +149,10 @@ class Products with ChangeNotifier {
 
   Future<void> updateProduct(String id, Product newProduct) async {
     final url = Uri.https(
-        'shopapp-3f885-default-rtdb.europe-west1.firebasedatabase.app',
-        '/products/$id.json');
+      'shopapp-3f885-default-rtdb.europe-west1.firebasedatabase.app',
+      '/products/$id.json',
+      {'auth': authToken},
+    );
 
     try {
       await http.patch(url,
@@ -171,8 +175,10 @@ class Products with ChangeNotifier {
 
   Future<void> deleteProduct(String id) async {
     final url = Uri.https(
-        'shopapp-3f885-default-rtdb.europe-west1.firebasedatabase.app',
-        '/products/$id.json');
+      'shopapp-3f885-default-rtdb.europe-west1.firebasedatabase.app',
+      '/products/$id.json',
+      {'auth': authToken},
+    );
 
     var existingProductIndex = _items.indexWhere((element) => element.id == id);
     var existingProduct = _items[existingProductIndex];

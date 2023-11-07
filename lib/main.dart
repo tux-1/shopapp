@@ -25,15 +25,23 @@ class MyApp extends StatelessWidget {
         providers: [
           //If your value doesnt depend on context use this instead of builder/create
           //using normal constructor with create argument is the better approach here
-          ChangeNotifierProvider(
-            create: (ctx) => Orders(),
-          ),
+
           //doesnt work with the .value() constructor
           ChangeNotifierProvider(
             create: (ctx) => Cart(),
           ),
           ChangeNotifierProvider(
             create: (ctx) => Auth(),
+          ),
+          ChangeNotifierProxyProvider<Auth, Orders>(
+            update: (ctx, auth, previousOrders) {
+              return Orders(
+                auth.token.toString(),
+                previousOrders == null ? [] : previousOrders.orders,
+              );
+            },
+            create: (ctx) => Orders(
+                Provider.of<Auth>(ctx, listen: false).token.toString(), []),
           ),
           ChangeNotifierProxyProvider<Auth, Products>(
             //update: was previously builder:

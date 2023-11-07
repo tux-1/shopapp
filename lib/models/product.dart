@@ -26,10 +26,12 @@ class Product with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> toggleFavoriteStatus() async {
+  Future<void> toggleFavoriteStatus(String token) async {
     final url = Uri.https(
-        'shopapp-3f885-default-rtdb.europe-west1.firebasedatabase.app',
-        '/products/$id.json');
+      'shopapp-3f885-default-rtdb.europe-west1.firebasedatabase.app',
+      '/products/$id.json',
+      {'auth': token},
+    );
     var oldFavorite = isFavorite;
     isFavorite = !isFavorite;
     notifyListeners();
