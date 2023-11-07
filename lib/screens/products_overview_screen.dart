@@ -23,6 +23,12 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   var _isLoading = false;
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
   void initState() {
     setState(() {
       _isLoading = true;
@@ -34,8 +40,13 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
       setState(() {
         _isLoading = false;
       });
+    }).onError((error, _) {
+      setState(() {
+        _isLoading = false;
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('An error occured.')));
+      });
     });
-
     //this is the substitute if you want listen: true
     // Future.delayed(Duration.zero).then((_) {
     //   Provider.of<Products>(context).fetchAndSetProducts();
@@ -45,7 +56,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final productsContainer = Provider.of<Products>(context);
+    // final productsContainer = Provider.of<Products>(context);
     return Scaffold(
         appBar: AppBar(
           title: Text(

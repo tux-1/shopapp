@@ -62,12 +62,24 @@ class Products with ChangeNotifier {
     //instead of an address
   }
 
-  Future<void> fetchAndSetProducts() async {
+  Future<void> fetchAndSetProducts([bool filterByUser = false]) async {
+    final Map<String, dynamic> queryParameters = filterByUser
+        ? {
+            'auth': authToken,
+            'orderBy': '"creatorId"',
+            'equalTo': '"$userId"',
+          }
+        : {
+            'auth': authToken,
+          };
+
     final url = Uri.https(
       'shopapp-3f885-default-rtdb.europe-west1.firebasedatabase.app',
       '/products.json', // encodedPath, the directory
-      {'auth': authToken}, // THE AUTH TOKEN GOES IN queryParameters
+      // THE AUTH TOKEN GOES IN queryParameters
+      queryParameters,
     );
+
     //add ?auth=$authToken at the end of the link to access by using token
     //it's not working with me lol
     try {
@@ -81,8 +93,11 @@ class Products with ChangeNotifier {
       final favoritesUrl = Uri.https(
         'shopapp-3f885-default-rtdb.europe-west1.firebasedatabase.app',
         '/userFavorites/$userId.json',
-        {'auth': authToken},
+        {
+          'auth': authToken,
+        },
       );
+
       final favoriteResponse = await http.get(favoritesUrl);
       final favoritesData =
           json.decode(favoriteResponse.body) as Map<String, dynamic>?;
@@ -128,6 +143,7 @@ class Products with ChangeNotifier {
           'description': product.description,
           'imageUrl': product.imageUrl,
           'price': product.price,
+          'creatorId': userId,
         }),
       );
       // print(json.decode(response.body));
