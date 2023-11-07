@@ -43,7 +43,12 @@ class Products with ChangeNotifier {
     // ),
   ];
 
-  // var _showFavoritesOnly = false;
+  final String authToken;
+
+  Products(
+    this.authToken,
+    this._items,
+  );
 
   List<Product> get favoriteItems {
     return _items.where((element) => element.isFavorite).toList();
@@ -57,8 +62,12 @@ class Products with ChangeNotifier {
 
   Future<void> fetchAndSetProducts() async {
     final url = Uri.https(
-        'shopapp-3f885-default-rtdb.europe-west1.firebasedatabase.app',
-        '/products.json');
+      'shopapp-3f885-default-rtdb.europe-west1.firebasedatabase.app',
+      '/products.json',
+      // MAYBE ADD HERE {'auth': '$authToken'}
+    );
+    //add ?auth=$authToken at the end of the link to access by using token
+    //it's not working with me lol
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>?;
