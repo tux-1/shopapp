@@ -49,11 +49,12 @@ class MyApp extends StatelessWidget {
               // print(auth.token); //auth token reaches here
               return Products(
                 auth.token.toString(),
+                auth.userId,
                 previousProducts == null ? [] : previousProducts.items,
               );
             },
             create: (ctx) => Products(
-                Provider.of<Auth>(ctx, listen: false).token.toString(), []),
+                Provider.of<Auth>(ctx, listen: false).token.toString(), '', []),
           )
         ],
         child: Consumer<Auth>(

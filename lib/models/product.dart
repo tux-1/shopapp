@@ -26,10 +26,10 @@ class Product with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> toggleFavoriteStatus(String token) async {
+  Future<void> toggleFavoriteStatus(String token, String userId) async {
     final url = Uri.https(
       'shopapp-3f885-default-rtdb.europe-west1.firebasedatabase.app',
-      '/products/$id.json',
+      '/userFavorites/$userId/$id.json',
       {'auth': token},
     );
     var oldFavorite = isFavorite;
@@ -37,11 +37,11 @@ class Product with ChangeNotifier {
     notifyListeners();
     try {
       //for patch, put & delete http package won't throw an error if u remove .json
-      final response = await http.patch(
+      final response = await http.put(
         url,
-        body: json.encode({
-          'isFavorite': isFavorite,
-        }),
+        body: json.encode(
+          isFavorite,
+        ),
       );
       if (response.statusCode >= 400) {
         _setFavValue(oldFavorite);
