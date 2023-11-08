@@ -37,11 +37,15 @@ class MyApp extends StatelessWidget {
             update: (ctx, auth, previousOrders) {
               return Orders(
                 auth.token.toString(),
+                auth.userId,
                 previousOrders == null ? [] : previousOrders.orders,
               );
             },
             create: (ctx) => Orders(
-                Provider.of<Auth>(ctx, listen: false).token.toString(), []),
+              '',
+              '',
+              [],
+            ),
           ),
           ChangeNotifierProxyProvider<Auth, Products>(
             //update: was previously builder:
@@ -53,8 +57,7 @@ class MyApp extends StatelessWidget {
                 previousProducts == null ? [] : previousProducts.items,
               );
             },
-            create: (ctx) => Products(
-                Provider.of<Auth>(ctx, listen: false).token.toString(), '', []),
+            create: (ctx) => Products('', '', []),
           )
         ],
         child: Consumer<Auth>(
