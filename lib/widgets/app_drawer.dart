@@ -52,6 +52,8 @@ class AppDrawer extends StatelessWidget {
                 )),
             onTap: () {
               Navigator.of(context).pop(); //to close the drawer
+              Navigator.of(context).pushReplacementNamed('/');
+              //to prevent any unexpected behavior
               Provider.of<Auth>(context, listen: false).logOut();
             }),
       ]),
