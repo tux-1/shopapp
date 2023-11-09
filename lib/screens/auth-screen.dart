@@ -137,8 +137,18 @@ class _AuthCardState extends State<AuthCard> {
         //     Navigator.of(context).pushNamed(UserProductsScreen.routeName));
       } else {
         // Sign user up
-        await Provider.of<Auth>(context, listen: false).signUp(
-            _authData['email'].toString(), _authData['password'].toString());
+        await Provider.of<Auth>(context, listen: false)
+            .signUp(
+                _authData['email'].toString(), _authData['password'].toString())
+            .then((value) {
+          setState(() {
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text('Account successfully created!'),
+              duration: Duration(seconds: 1),
+            ));
+            _authMode = AuthMode.Login;
+          });
+        });
       }
     } on my_exceptions.HttpException catch (error) {
       //Catch for causes I know in my exceptions model

@@ -53,24 +53,26 @@ class Auth with ChangeNotifier {
         throw HttpException(
             'An error occured: ' + responseData['error']['message']);
       }
-      _token = responseData['idToken'];
-      _userId = responseData['localId'];
-      // print(_token);
-      // print(_userId);
-      _expiryDate = DateTime.now().add(
-        Duration(
-          seconds: int.parse(responseData['expiresIn']),
-        ),
-      );
-      _autoLogout();
-      notifyListeners();
-      final prefs = await SharedPreferences.getInstance();
-      final userData = json.encode({
-        'token': _token,
-        'userId': _userId,
-        'expiryDate': _expiryDate?.toIso8601String(),
-      });
-      prefs.setString('userData', userData);
+      if (urlSegment == 'signInWithPassword') {
+        _token = responseData['idToken'];
+        _userId = responseData['localId'];
+        // print(_token);
+        // print(_userId);
+        _expiryDate = DateTime.now().add(
+          Duration(
+            seconds: int.parse(responseData['expiresIn']),
+          ),
+        );
+        _autoLogout();
+        notifyListeners();
+        final prefs = await SharedPreferences.getInstance();
+        final userData = json.encode({
+          'token': _token,
+          'userId': _userId,
+          'expiryDate': _expiryDate?.toIso8601String(),
+        });
+        prefs.setString('userData', userData);
+      }
     } catch (error) {
       rethrow;
     }
