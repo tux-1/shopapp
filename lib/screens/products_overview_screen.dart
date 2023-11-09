@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../generated/l10n.dart';
 import '../screens/cart_screen.dart';
 import '../widgets/app_drawer.dart';
 import '../providers/cart.dart';
@@ -59,9 +61,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
     // final productsContainer = Provider.of<Products>(context);
     return Scaffold(
         appBar: AppBar(
-          title: Text(
-            'قائمة المبيعات',
-          ),
+          title: Text(S.of(context).title),
           actions: [
             Consumer<Cart>(
               //OPEN CART BUTTON

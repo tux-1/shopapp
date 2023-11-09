@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'generated/l10n.dart';
 import 'screens/splash-screen.dart';
 import '/providers/auth.dart';
 import 'screens/auth-screen.dart';
@@ -58,10 +60,18 @@ class MyApp extends StatelessWidget {
         ],
         child: Consumer<Auth>(
           builder: (ctx, authData, _) => MaterialApp(
+              localizationsDelegates: const [
+                S.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: S.delegate.supportedLocales,
+              // locale: const Locale('ar'), //Change language
               debugShowCheckedModeBanner: false,
               title: 'Shop demo',
               theme: ThemeData(
-                  cardTheme: CardTheme(elevation: 5),
+                  cardTheme: const CardTheme(elevation: 5),
                   // primaryColor: Colors.purple,
                   colorScheme: ColorScheme.fromSwatch(
                     primarySwatch: Colors.blueGrey,
