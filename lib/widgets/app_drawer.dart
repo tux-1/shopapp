@@ -11,22 +11,29 @@ class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: const Color(0xff1E352F),
       child: Column(children: [
         AppBar(
-          title: Text('Hello "User"!'),
+          title: const Text('Hello "User"!'),
           automaticallyImplyLeading: false,
         ),
         const Divider(),
         ListTile(
-            leading: Icon(Icons.shop),
-            title: Text('Shop'),
+            leading: const Icon(Icons.shop),
+            title: const Text(
+              'Shop',
+              style: TextStyle(color: Colors.white),
+            ),
             onTap: () {
               Navigator.of(context).pushReplacementNamed('/');
             }),
         const Divider(),
         ListTile(
             leading: const Icon(Icons.payment),
-            title: const Text('Orders'),
+            title: const Text(
+              'Orders',
+              style: TextStyle(color: Colors.white),
+            ),
             onTap: () {
               Navigator.of(context)
                   .pushReplacementNamed(OrdersScreen.routeName);
@@ -34,19 +41,23 @@ class AppDrawer extends StatelessWidget {
         const Divider(),
         ListTile(
             leading: const Icon(Icons.edit),
-            title: const Text('Your Products'),
+            title: const Text(
+              'Your Products',
+              style: TextStyle(color: Colors.white),
+            ),
             onTap: () {
               Navigator.of(context)
                   .pushReplacementNamed(UserProductsScreen.routeName);
             }),
         const Divider(),
-        Spacer(),
+        const Spacer(),
         ListTile(
             leading: const Icon(
               Icons.logout,
             ),
             title: const Text('Log out',
                 style: TextStyle(
+                  color: Colors.white,
                   fontSize: 18,
                   fontWeight: FontWeight.w400,
                 )),

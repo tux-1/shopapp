@@ -37,54 +37,55 @@ class ProductItem extends StatelessWidget {
             //     image: product.imageUrl)
             ),
         footer: GridTileBar(
-            leading: Consumer<Product>(
-              builder: (ctx, product, child) => IconButton(
-                icon: Icon(
-                    product.isFavorite ? Icons.favorite : Icons.favorite_border,
-                    color: Theme.of(context).colorScheme.secondary),
-                onPressed: () async {
-                  try {
-                    product.toggleFavoriteStatus(
-                      authData.token.toString(),
-                      authData.userId,
-                    );
-                  } catch (error) {
-                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      duration: Duration(seconds: 1),
-                      content: Text(
-                        'Favoriting failed!',
-                        textAlign: TextAlign.center,
-                      ),
-                    ));
-                  }
-                },
-              ),
-            ),
-            backgroundColor: Colors.black54,
-            trailing: IconButton(
-                //ADD TO CART BUTTON
-                onPressed: () {
-                  cart.addItem(product.id, product.price, product.title);
+          leading: Consumer<Product>(
+            builder: (ctx, product, child) => IconButton(
+              icon: Icon(
+                  product.isFavorite ? Icons.favorite : Icons.favorite_border,
+                  color: Theme.of(context).colorScheme.secondary),
+              onPressed: () async {
+                try {
+                  product.toggleFavoriteStatus(
+                    authData.token.toString(),
+                    authData.userId,
+                  );
+                } catch (error) {
                   ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: const Text('Item added to cart'),
-                    duration: const Duration(seconds: 2),
-                    action: SnackBarAction(
-                        label: 'UNDO',
-                        onPressed: () {
-                          cart.removeSingleItem(product.id);
-                        }),
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    duration: Duration(seconds: 1),
+                    content: Text(
+                      'Favoriting failed!',
+                      textAlign: TextAlign.center,
+                    ),
                   ));
-                },
-                icon: Icon(
-                  Icons.shopping_cart,
-                  color: Theme.of(context).colorScheme.secondary,
-                )),
-            title: Text(
-              product.title,
-              textAlign: TextAlign.center,
-            )),
+                }
+              },
+            ),
+          ),
+          backgroundColor: Colors.black54,
+          trailing: IconButton(
+              //ADD TO CART BUTTON
+              onPressed: () {
+                cart.addItem(product.id, product.price, product.title);
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: const Text('Item added to cart'),
+                  duration: const Duration(seconds: 2),
+                  action: SnackBarAction(
+                      label: 'UNDO',
+                      onPressed: () {
+                        cart.removeSingleItem(product.id);
+                      }),
+                ));
+              },
+              icon: Icon(
+                Icons.shopping_cart,
+                color: Theme.of(context).colorScheme.secondary,
+              )),
+          title: Text(
+            product.title,
+            textAlign: TextAlign.center,
+          ),
+        ),
       ),
     );
   }

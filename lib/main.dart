@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -23,6 +24,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     return MultiProvider(
         providers: [
           //If your value doesnt depend on context use this instead of builder/create
@@ -71,12 +73,35 @@ class MyApp extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               title: 'Shop demo',
               theme: ThemeData(
+                  listTileTheme: const ListTileThemeData(
+                    iconColor: Color(0xffDEA568),
+                    // textColor: Colors.white,
+                  ),
+                  // Define the background color of the app
+                  scaffoldBackgroundColor: const Color(0xff1E352F),
                   cardTheme: const CardTheme(elevation: 5),
-                  // primaryColor: Colors.purple,
+                  // Define text theme to control the text color
+                  textTheme: const TextTheme(
+                      bodyMedium: TextStyle(
+                    color: Colors.black,
+                  )),
+                  // Define the primary color for the app
+                  primaryColor: Colors.purple,
+                  // Define the accent color used for buttons, icons, etc.
                   colorScheme: ColorScheme.fromSwatch(
                     primarySwatch: Colors.blueGrey,
-                    accentColor: Colors.deepOrange,
-                  )),
+                    accentColor: const Color(0xffDEA568),
+                  ),
+                  appBarTheme: const AppBarTheme(
+                      iconTheme: IconThemeData(color: Colors.black),
+                      titleTextStyle: TextStyle(
+                        color: Colors.black,
+                        fontSize: 22,
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.w500,
+                      ),
+                      color: Colors.white,
+                      actionsIconTheme: IconThemeData(color: Colors.black))),
               home: authData.isAuth
                   ? ProductsOverviewScreen()
                   : FutureBuilder(

@@ -23,14 +23,13 @@ class AuthScreen extends StatelessWidget {
       body: Stack(
         children: <Widget>[
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color.fromRGBO(215, 117, 255, 1).withOpacity(0.5),
-                  Color.fromRGBO(255, 188, 117, 1).withOpacity(0.9),
+                  Color(0xff1E352F),
                 ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
                 stops: [0, 1],
               ),
             ),
@@ -45,6 +44,7 @@ class AuthScreen extends StatelessWidget {
                 children: <Widget>[
                   Flexible(
                     child: Container(
+                      constraints: BoxConstraints(maxHeight: 100),
                       margin: EdgeInsets.only(bottom: 20.0),
                       padding:
                           EdgeInsets.symmetric(vertical: 8.0, horizontal: 94.0),
@@ -54,7 +54,7 @@ class AuthScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         color: Colors.deepOrange.shade900,
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                             blurRadius: 8,
                             color: Colors.black26,
@@ -63,8 +63,10 @@ class AuthScreen extends StatelessWidget {
                         ],
                       ),
                       child: const Text(
-                        'MyShop',
+                        maxLines: 1,
+                        'Shop',
                         style: TextStyle(
+                          overflow: TextOverflow.fade,
                           color: Colors.white,
                           fontSize: 50,
                           // fontFamily: 'Anton',
