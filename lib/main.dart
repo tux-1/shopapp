@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
+import './screens/splash-body.dart';
 import 'generated/l10n.dart';
-import 'screens/splash-screen.dart';
 import '/providers/auth.dart';
 import 'screens/auth-screen.dart';
 import './screens/edit_product_screen.dart';
@@ -71,7 +70,7 @@ class MyApp extends StatelessWidget {
               supportedLocales: S.delegate.supportedLocales,
               // locale: const Locale('ar'), //Change language
               debugShowCheckedModeBanner: false,
-              title: 'Shop demo',
+              // title: 'Shop demo',
               theme: ThemeData(
                   listTileTheme: const ListTileThemeData(
                     iconColor: Color(0xffDEA568),
@@ -83,6 +82,7 @@ class MyApp extends StatelessWidget {
                   // Define text theme to control the text color
                   textTheme: const TextTheme(
                       bodyMedium: TextStyle(
+                    // fontFamily: 'Inter',
                     color: Colors.black,
                   )),
                   // Define the primary color for the app
@@ -109,7 +109,7 @@ class MyApp extends StatelessWidget {
                       builder: (c, authResultSnapshot) =>
                           authResultSnapshot.connectionState ==
                                   ConnectionState.waiting
-                              ? SplashScreen()
+                              ? const SplashBody()
                               : AuthScreen()),
               routes: {
                 // ProductsOverviewScreen()
