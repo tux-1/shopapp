@@ -36,35 +36,41 @@ class _OrderItemState extends State<OrderItem>
               },
             ),
           ),
-          if (_expanded)
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 4),
-              height: min(widget.order.products.length * 20.0 + 10, 100),
-              child: ListView.builder(
-                itemBuilder: (ctx, index) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        widget.order.products[index].title,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        '${widget.order.products[index].quantity}x \$${widget.order.products[index].price}',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          color: Colors.grey,
-                        ),
-                      )
-                    ],
-                  );
-                },
-                itemCount: widget.order.products.length,
-              ),
+          AnimatedContainer(
+            curve: Curves.easeIn,
+            duration: Duration(milliseconds: 200),
+            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 4),
+            height: !_expanded ? 0 : widget.order.products.length * 20.0 + 10,
+            constraints: BoxConstraints(
+              minHeight:
+                  !_expanded ? 0 : widget.order.products.length * 20.0 + 10,
+              maxHeight: 100,
             ),
+            child: ListView.builder(
+              itemBuilder: (ctx, index) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      widget.order.products[index].title,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      '${widget.order.products[index].quantity}x \$${widget.order.products[index].price}',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        color: Colors.grey,
+                      ),
+                    )
+                  ],
+                );
+              },
+              itemCount: widget.order.products.length,
+            ),
+          ),
         ],
       ),
     );
