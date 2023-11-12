@@ -15,6 +15,7 @@ import './providers/products.dart';
 import 'providers/cart.dart';
 import 'screens/orders_screen.dart';
 import 'screens/user_products_screen.dart';
+import './helpers/custom_route.dart';
 
 void main() {
   runApp(MyApp());
@@ -72,6 +73,10 @@ class MyApp extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               // title: 'Shop demo',
               theme: ThemeData(
+                  pageTransitionsTheme: PageTransitionsTheme(builders: {
+                    TargetPlatform.android: CustomPageTransitionBuilder(),
+                    // TargetPlatform.iOS:,
+                  }),
                   listTileTheme: const ListTileThemeData(
                     iconColor: Color(0xffDEA568),
                     // textColor: Colors.white,
