@@ -1,6 +1,6 @@
 # ShopApp
 
-ShopApp is a mobile application developed using Dart and Flutter. It allows users to [brief description of the app's main functionality or purpose].
+ShopApp is a mobile application developed using Dart and Flutter.
 
 ## Features
 
@@ -31,5 +31,5 @@ Before running the app, make sure to configure the Firebase API integration. Upd
 
 ## Contributing
 
-If you would like to contribute to the development of this project, DM me on discord @<tuxedo.>
+If you would like to contribute to the development of this project, DM me on discord **@tuxedo.**
 
