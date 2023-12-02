@@ -1,16 +1,35 @@
-# shopapp2
+# ShopApp
 
-A new Flutter project.
+ShopApp is a mobile application developed using Dart and Flutter. It allows users to [brief description of the app's main functionality or purpose].
+
+## Features
+
+- **User Authentication:** Enjoy a secure experience with seamless login and signup functionality.
+  
+- **Product Management:** Effortlessly add and edit products to keep your inventory up to date.
+
+- **Favorites and Sorting:** Easily manage preferences by favoriting items and sorting them based on favorites.
+
+## Technologies Used
+
+- Dart
+- Flutter
+- Firebase API
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+To run this application locally, follow these steps:
 
-A few resources to get you started if this is your first Flutter project:
+1. Clone the repository: `git clone https://github.com/tux-1/shopapp.git`
+2. Navigate to the project directory: `cd shopapp`
+3. Install dependencies: `flutter pub get`
+4. Run the app: `flutter run`
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Configuration
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Before running the app, make sure to configure the Firebase API integration. Update the configuration details in [providers/auth.dart].
+
+## Contributing
+
+If you would like to contribute to the development of this project, DM me on discord @<tuxedo.>
+
