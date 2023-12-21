@@ -5,9 +5,7 @@ ShopApp is a mobile application developed using Dart and Flutter.
 ## Features
 
 - **User Authentication:** Enjoy a secure experience with seamless login and signup functionality.
-  
 - **Product Management:** Effortlessly add and edit products to keep your inventory up to date.
-
 - **Favorites and Sorting:** Easily manage preferences by favoriting items and sorting them based on favorites.
 
 ## Technologies Used
@@ -15,6 +13,7 @@ ShopApp is a mobile application developed using Dart and Flutter.
 - Dart
 - Flutter
 - Firebase API
+- Providers State Management
 
 ## Getting Started
 
