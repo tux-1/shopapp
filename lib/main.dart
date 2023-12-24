@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
               );
             },
             create: (ctx) => Products('', '', []),
-          )
+          ),
         ],
         child: Consumer<Auth>(
           builder: (ctx, authData, _) => MaterialApp(
