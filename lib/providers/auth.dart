@@ -34,7 +34,7 @@ class Auth with ChangeNotifier {
     //const is a compilation time constant, final is a runtime constant
     final url = Uri.parse(
         //you can put https:// in the Uri.parse() string
-        'https://identitytoolkit.googleapis.com/v1/accounts:$urlSegment?key=AIzaSyAV9AosuFzvn1xTqIYWxoP55m-cLeInLro');
+        'https://identitytoolkit.googleapis.com/v1/accounts:$urlSegment?key=[API_KEY]');
     //https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[API_KEY]
     try {
       final response = await http.post(
